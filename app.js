@@ -1,7 +1,5 @@
 "use strict";
 
-const { response } = require("express");
-
 const tileDisplay = document.querySelector(".tile-container");
 const keyboard = document.querySelector(".key-container");
 const messageDisplay = document.querySelector(".message-container");
@@ -88,19 +86,21 @@ keys.forEach((key) => {
 });
 
 const handleClick = (key) => {
-  console.log("clicked", key);
-  if (key === "«") {
-    deleteLetter(key);
+  if (!isGameOver) {
+    console.log("clicked", key);
+    if (key === "«") {
+      deleteLetter(key);
+      console.log("guessRows", guessRows);
+      return;
+    }
+    if (key === "ENTER") {
+      checkRow();
+      console.log("guessRows", guessRows);
+      return;
+    }
+    addLetter(key);
     console.log("guessRows", guessRows);
-    return;
   }
-  if (key === "ENTER") {
-    checkRow();
-    console.log("guessRows", guessRows);
-    return;
-  }
-  addLetter(key);
-  console.log("guessRows", guessRows);
 };
 
 const addLetter = (letter) => {
