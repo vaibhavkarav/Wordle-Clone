@@ -3,6 +3,8 @@
 const tileDisplay = document.querySelector(".tile-container");
 const keyboard = document.querySelector(".key-container");
 
+const wordle = "SUPER";
+
 const keys = [
   "Q",
   "W",
@@ -77,7 +79,7 @@ const handleClick = (key) => {
     return;
   }
   if (key === "ENTER") {
-    console.log("check row");
+    checkRow();
     console.log("guessRows", guessRows);
     return;
   }
@@ -106,5 +108,12 @@ const deleteLetter = (letter) => {
     tile.textContent = "";
     guessRows[currentRow][currentTile] = "";
     tile.setAttribute("data", "");
+  }
+};
+
+const checkRow = () => {
+  if (currentTile === 5) {
+    const guess = guessRows[currentRow].join("");
+    console.log(`Guess is ${guess}, Wordle is ${wordle}.`);
   }
 };
