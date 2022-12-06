@@ -129,24 +129,37 @@ const deleteLetter = (letter) => {
 
 const checkRow = () => {
   const guess = guessRows[currentRow].join("");
+  console.log("guess", guess);
   if (currentTile > 4) {
+    fetch(`http://localhost:8000/check/?word=${guess}`)
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        if (json === "Entry word not found") {
+          showMessage("word not in list");
+          return;
+        } else {
+          flipTile();
+          if (wordle === guess) {
+            showMessage("Magnificent!");
+            isGameOver = true;
+            return;
+          } else {
+            if (currentRow >= 5) {
+              isGameOver = true;
+              showMessage("Game Over!");
+              return;
+            }
+            if (currentRow < 5) {
+              currentRow++;
+              currentTile = 0;
+            }
+          }
+        }
+      })
+      .catch((err) => console.log(err));
+
     console.log(`Guess is ${guess}, Wordle is ${wordle}.`);
-    flipTile();
-    if (wordle === guess) {
-      showMessage("Magnificent!");
-      isGameOver = true;
-      return;
-    } else {
-      if (currentRow >= 5) {
-        isGameOver = true;
-        showMessage("Game Over!");
-        return;
-      }
-      if (currentRow < 5) {
-        currentRow++;
-        currentTile = 0;
-      }
-    }
   }
 };
 
