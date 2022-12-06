@@ -23,11 +23,34 @@ app.get("/word", (req, res) => {
 
   axios
     .request(options)
-    .then(function (response) {
+    .then((response) => {
       console.log(response.data);
       res.json(response.data[0]);
     })
-    .catch(function (error) {
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
+app.get("/check", (req, res) => {
+  console.log(req);
+
+  const options = {
+    method: "GET",
+    url: "https://twinword-word-graph-dictionary.p.rapidapi.com/association/",
+    params: { entry: "mask" },
+    headers: {
+      "X-RapidAPI-Key": process.env.RAPID_API_KEY,
+      "X-RapidAPI-Host": "twinword-word-graph-dictionary.p.rapidapi.com",
+    },
+  };
+
+  axios
+    .request(options)
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
       console.error(error);
     });
 });
